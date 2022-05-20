@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityCourse.Data", "Entity
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityCourse.Domain", "EntityCourse.Domain\EntityCourse.Domain.csproj", "{D5C5BF51-9AFB-484F-9D7E-3B2AF072A288}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityCourse.Data.Reverse", "EntityCourse.Data.Reverse\EntityCourse.Data.Reverse.csproj", "{FC40B239-79E6-4894-AB7F-15BBD662CC7A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{D5C5BF51-9AFB-484F-9D7E-3B2AF072A288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5C5BF51-9AFB-484F-9D7E-3B2AF072A288}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5C5BF51-9AFB-484F-9D7E-3B2AF072A288}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC40B239-79E6-4894-AB7F-15BBD662CC7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC40B239-79E6-4894-AB7F-15BBD662CC7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC40B239-79E6-4894-AB7F-15BBD662CC7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC40B239-79E6-4894-AB7F-15BBD662CC7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
