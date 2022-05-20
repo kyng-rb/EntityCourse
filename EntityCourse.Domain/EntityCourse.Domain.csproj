@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
     <LangVersion>10</LangVersion>
   </PropertyGroup>
-  <ItemGroup>
-    <Content Include="Models\Team.cs" />
-    <Content Include="Models\League.cs" />
-  </ItemGroup>
 </Project>
