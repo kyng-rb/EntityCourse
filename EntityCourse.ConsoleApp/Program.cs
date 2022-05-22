@@ -16,7 +16,9 @@ async Task Test()
     //await RetrieveWithFilter();
     //await ExecutionMethods();
     //await SingleUpdate();
-    await UpSert();
+    //await UpSert();
+
+    await Tracking();
     Console.ReadLine();
 }
 
@@ -177,6 +179,42 @@ async Task UpSert()
     dbContext.Update(existingTeam);
 
     await dbContext.SaveChangesAsync();
+};
+
+async Task Tracking()
+{
+    ///Tracking vs No Tracking
+    ///It is an Entity Feature, in short, when we retrieve a database record EF do a track
+    ///for each entity, basically it observes each record change. It is useful when we execute
+    ///the function SaveChanges or SaveChangesAsync, because based on that track entity knows
+    ///which records should be updated and which properties as well.
+    ///It by the way, means that each record with no track won't be updated when we make use
+    ///of the function SaveChanges
+    ///As No tracking is an extension method of IQueryable interface.
+
+    ///As no tracking feature is useful when we want to show a query result and we won't update it
+    ///a get is a good example, we do not need track those records.
+    ///
+
+    ///We can change the tracking behavior by modifying the context instance 
+    ///context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+
+    var dbContext = new FootballLeagueDbContext();
+
+    var withTrack = dbContext.Leagues.First();
+    var withNoTrack = dbContext.Leagues.AsNoTracking().OrderBy(x => x.Id).Last();
+
+    withTrack.Name += " -> Lovely";
+    withNoTrack.Name += " -> Not Sexy";
+
+    await dbContext.SaveChangesAsync();
+
+    ///There is a way to add to the track context an entity. Basically we use the ef context and add the 
+    ///entity, afterwards we marks it as modified
+
+    dbContext.Attach(withNoTrack).State = EntityState.Modified;
+    await dbContext.SaveChangesAsync();
+
 };
 
 await Test();
