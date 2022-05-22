@@ -12,9 +12,12 @@ async Task Test()
     //InsertManyTeams();
     //InsertRelated();
 
-    await Retrieve();
-    await RetrieveWithFilter();
-    Console.ReadKey();
+    //await Retrieve();
+    //await RetrieveWithFilter();
+    //await ExecutionMethods();
+    //await SingleUpdate();
+    await UpSert();
+    Console.ReadLine();
 }
 
 void InsertManyTeams()
@@ -116,5 +119,64 @@ async Task RetrieveWithFilter()
         Console.WriteLine($"{league.Id} - {league.Name}");
     }
 }
+
+async Task ExecutionMethods()
+{
+    FootballLeagueDbContext dbContext = new FootballLeagueDbContext();
+
+    var criteria = "A";
+
+    var setList = dbContext.Leagues;
+    var leagues = dbContext.Leagues.ToList();
+
+    foreach (var item in setList)
+    {
+        Console.WriteLine($"{item.Id} - {item.Name}");
+    }
+
+    foreach (var item in leagues)
+    {
+        Console.WriteLine($"{item.Id} - {item.Name}");
+    }
+
+    var filtered = dbContext.Leagues.Where(x => x.Name.Contains(criteria)).FirstOrDefault();
+    var filtered2 = dbContext.Leagues.FirstOrDefault(x => x.Name.Contains(criteria));
+}
+
+async Task SingleUpdate()
+{
+    var dbContext = new FootballLeagueDbContext();
+
+    var recordId = 3;
+
+    var league = await dbContext.Leagues.FindAsync(recordId);
+
+    league.Name = "FL";
+
+    dbContext.SaveChanges();
+
+    league.Name = "FL";
+
+    dbContext.SaveChanges();//When the save changes function is called, it checks if actually needs execute a database update
+                            //in case of not, it does nothing
+};
+
+async Task UpSert()
+{
+    ///We have the Update function which basically works as an upsert
+    ///Based on the record id or primary key of the entity it checks
+    ///if the records exists, if it does, it is updated in case of not
+    ///it is added.
+
+    var dbContext = new FootballLeagueDbContext();
+
+    var newTeam = new Team("Laa City") { LeagueId = 2 };
+    var existingTeam = new Team("ABC") { Id = 4, LeagueId = 2 };
+
+    dbContext.Update(newTeam);
+    dbContext.Update(existingTeam);
+
+    await dbContext.SaveChangesAsync();
+};
 
 await Test();
