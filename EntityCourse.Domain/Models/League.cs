@@ -10,6 +10,13 @@ public class League
     public League(string name)
     {
         Name = name;
+        Teams = new HashSet<Team>();
+    }
+
+    public League()
+    {
+
+        Teams = new HashSet<Team>();
     }
 
     public int Id { get; set; }

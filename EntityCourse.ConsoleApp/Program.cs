@@ -12,13 +12,13 @@ async Task Test()
     //InsertManyTeams();
     //InsertRelated();
 
-    //await Retrieve();
+    await Retrieve();
     //await RetrieveWithFilter();
     //await ExecutionMethods();
     //await SingleUpdate();
     //await UpSert();
 
-    await Tracking();
+    //await Tracking();
     Console.ReadLine();
 }
 
@@ -80,6 +80,21 @@ async Task Retrieve()
     foreach (var league in leagues)
     {
         Console.WriteLine($"{league.Id} - {league.Name}");
+        foreach (var team in league.Teams)
+        {
+            Console.WriteLine($"--->{team.Id} - {team.Name}");
+        }
+    }
+
+    var leagues2 = await dbContext.Leagues.Include(x => x.Teams).ToListAsync();
+    foreach (var league in leagues2)
+    {
+        Console.WriteLine($"{league.Id} - {league.Name}");
+
+        foreach (var team in league.Teams)
+        {
+            Console.WriteLine($"--->{team.Id} - {team.Name}");
+        }
     }
 }
 
