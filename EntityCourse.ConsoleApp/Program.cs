@@ -12,13 +12,15 @@ async Task Test()
     //InsertManyTeams();
     //InsertRelated();
 
-    await Retrieve();
+    //await Retrieve();
     //await RetrieveWithFilter();
     //await ExecutionMethods();
     //await SingleUpdate();
     //await UpSert();
 
     //await Tracking();
+
+    await RetrieveSingle();
     Console.ReadLine();
 }
 
@@ -43,6 +45,22 @@ void InsertManyTeams()
     };
 
     dbContext.AddRange(teams);
+    dbContext.SaveChanges();
+
+    var teamsRecords = dbContext.Teams.ToList();
+    var matches = new List<Match>();
+    foreach (var item in teamsRecords)
+    {
+        matches.AddRange(Enumerable.Range(1, teamsRecords.Count).Select(x => new Match()
+        {
+            HomeTeam = item,
+            AwayTeam = teamsRecords.Last(),
+            Date = DateTime.UtcNow,
+            League = league
+        }));
+    }
+
+    dbContext.AddRange(matches);
     dbContext.SaveChanges();
 }
 
@@ -70,6 +88,25 @@ void InsertRelated()
 
     dbContext.Add(team);
     dbContext.SaveChanges();
+}
+
+async Task RetrieveSingle()
+{
+    var dbContext = new FootballLeagueDbContext();
+
+    var league = await dbContext.Leagues.OrderBy(x => x.Id).LastAsync();
+
+    Console.WriteLine($"{league.Id} -> {league.Name}");
+
+    foreach (var item in league.Teams)
+    {
+        Console.WriteLine($"{item.Id} -> {item.Name}");
+    }
+
+    foreach (var item in league.Matches)
+    {
+        Console.WriteLine($"Game Number: {item.Id} -> Home: {item.HomeTeam.Name} vs -> Away: {item.AwayTeam.Name}");
+    }
 }
 
 async Task Retrieve()
