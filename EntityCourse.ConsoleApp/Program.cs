@@ -76,12 +76,11 @@ async Task Retrieve()
 {
     FootballLeagueDbContext dbContext = new FootballLeagueDbContext();
 
-    var leagues = dbContext.Leagues.ToList();
+    var leagues = await dbContext.Leagues.ToListAsync();
     foreach (var league in leagues)
     {
         Console.WriteLine($"{league.Id} - {league.Name}");
-        var teams = league.Teams;
-        foreach (var team in teams)
+        foreach (var team in league.Teams)
         {
             Console.WriteLine($"--->{team.Id} - {team.Name}");
         }

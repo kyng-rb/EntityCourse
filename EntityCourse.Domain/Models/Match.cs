@@ -5,17 +5,14 @@ using System.Threading.Tasks;
 
 namespace EntityCourse.Domain.Models;
 
-public class Team
+public class Match
 {
-    public Team(string name)
-    {
-        Name = name;
-    }
-
     public int Id { get; set; }
-    public string Name { get; set; }
+    public int HomeTeamId { get; set; }
+    public virtual Team HomeTeam { get; set; } = null!;
+    public int AwayTeamId { get; set; }
+    public virtual Team AwayTeam { get; set; } = null!;
     public int LeagueId { get; set; }
     public virtual League League { get; set; } = null!;
-    public virtual ICollection<Match> HomeMatches { get; set; } = null!;
-    public virtual ICollection<Match> AwayMatches { get; set; } = null!;
+    public DateTime Date { get; set; }
 }

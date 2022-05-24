@@ -17,10 +17,12 @@ public class League
     {
 
         Teams = new HashSet<Team>();
+        Matches = new HashSet<Match>();
     }
 
     public int Id { get; set; }
     public string Name { get; set; }
 
     public virtual ICollection<Team> Teams { get; set; }
+    public virtual ICollection<Match> Matches { get; set; }
 }

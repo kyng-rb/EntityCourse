@@ -1,6 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EntityCourse.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using EntityCourse.Domain.Models;
 
 namespace EntityCourse.Data.DatabaseContext;
 
@@ -10,15 +10,29 @@ public class FootballLeagueDbContext : DbContext
     {
         optionsBuilder.UseSqlServer("Data Source=localhost; Initial Catalog=FootballLeague; User=sa; Password=<U53rn@m3kyn6>")
         .LogTo(Console.WriteLine, new[] { DbLoggerCategory.Database.Command.Name }, LogLevel.Information)
-        .EnableSensitiveDataLogging();
+        .EnableSensitiveDataLogging()
+        .UseLazyLoadingProxies();
     }
 
-    public FootballLeagueDbContext() : base()
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        this.ChangeTracker.LazyLoadingEnabled = true;
+        builder.Entity<Team>()
+            .HasMany(m => m.AwayMatches)
+            .WithOne(x => x.AwayTeam)
+            .HasForeignKey(q => q.AwayTeamId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Team>()
+            .HasMany(c => c.HomeMatches)
+            .WithOne(x => x.HomeTeam)
+            .HasForeignKey(q => q.HomeTeamId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict);
     }
 
 
     public virtual DbSet<League> Leagues { get; set; } = null!;
     public virtual DbSet<Team> Teams { get; set; } = null!;
+    public virtual DbSet<Match> Matches { get; set; } = null!;
 }
