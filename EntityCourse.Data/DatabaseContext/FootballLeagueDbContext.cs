@@ -29,10 +29,17 @@ public class FootballLeagueDbContext : DbContext
             .HasForeignKey(q => q.HomeTeamId)
             .IsRequired()
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Entity<Coach>()
+            .HasOne(c => c.Team)
+            .WithOne(a => a.Coach)
+            .HasForeignKey<Coach>(b => b.TeamId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 
 
     public virtual DbSet<League> Leagues { get; set; } = null!;
     public virtual DbSet<Team> Teams { get; set; } = null!;
     public virtual DbSet<Match> Matches { get; set; } = null!;
+    public virtual DbSet<Coach> Coaches { get; set; } = null!;
 }
