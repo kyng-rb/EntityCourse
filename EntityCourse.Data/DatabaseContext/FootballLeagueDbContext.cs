@@ -35,6 +35,8 @@ public class FootballLeagueDbContext : DbContext
             .WithOne(a => a.Coach)
             .HasForeignKey<Coach>(b => b.TeamId)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<TeamDetail>().HasNoKey().ToView("TeamDetails");
     }
 
 
@@ -42,4 +44,5 @@ public class FootballLeagueDbContext : DbContext
     public virtual DbSet<Team> Teams { get; set; } = null!;
     public virtual DbSet<Match> Matches { get; set; } = null!;
     public virtual DbSet<Coach> Coaches { get; set; } = null!;
+    public virtual DbSet<TeamDetail> TeamDetails { get; set; } = null!;
 }

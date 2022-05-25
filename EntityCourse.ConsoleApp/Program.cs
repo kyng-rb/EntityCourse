@@ -20,7 +20,9 @@ async Task Test()
 
     //await Tracking();
 
-    await RetrieveSingle();
+    //await RetrieveSingle();
+
+    await RetrieveView();
     Console.ReadLine();
 }
 
@@ -268,5 +270,17 @@ async Task Tracking()
     await dbContext.SaveChangesAsync();
 
 };
+
+async Task RetrieveView()
+{
+    var dbContext = new FootballLeagueDbContext();
+
+    var teamDetails = await dbContext.TeamDetails.ToListAsync();
+
+    foreach (var item in teamDetails)
+    {
+        Console.WriteLine($"Name: {item.TeamName} -> League: {item.LeagueName} -> CoachName: {item.CoachName}");
+    }
+}
 
 await Test();
