@@ -22,7 +22,9 @@ async Task Test()
 
     //await RetrieveSingle();
 
-    await RetrieveView();
+    //await RetrieveView();
+
+    await UsingFunction();
     Console.ReadLine();
 }
 
@@ -281,6 +283,21 @@ async Task RetrieveView()
     {
         Console.WriteLine($"Name: {item.TeamName} -> League: {item.LeagueName} -> CoachName: {item.CoachName}");
     }
+}
+
+async Task UsingFunction()
+{
+    var dbContext = new FootballLeagueDbContext();
+
+    var team = dbContext.Teams.OrderByDescending(x => x.Id).First();
+
+    int numberOfMatches = await dbContext.Database.ExecuteSqlInterpolatedAsync(@$"
+    SELECT COUNT(*) Matches
+    FROM   dbo.Matches a
+    INNER JOIN dbo.Teams b on b.Id = a.AwayTeamId
+    INNER JOIN dbo.Teams c on c.Id = a.HomeTeamId
+    WHERE  a.AwayTeamId = {team.Id} OR a.HomeTeamId = {team.Id}
+    ");
 }
 
 await Test();
