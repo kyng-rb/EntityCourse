@@ -1,4 +1,5 @@
-﻿using EntityCourse.Domain.Models;
+﻿using EntityCourse.Data.DataSeeds;
+using EntityCourse.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -37,6 +38,8 @@ public class FootballLeagueDbContext : DbContext
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.Entity<TeamDetail>().HasNoKey().ToView("TeamDetails");
+
+        builder.Seed();
     }
 
 
