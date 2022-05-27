@@ -24,7 +24,9 @@ async Task Test()
 
     //await RetrieveView();
 
-    await UsingFunction();
+    //await UsingFunction();
+
+    await Transactions();
     Console.ReadLine();
 }
 
@@ -298,6 +300,29 @@ async Task UsingFunction()
     INNER JOIN dbo.Teams c on c.Id = a.HomeTeamId
     WHERE  a.AwayTeamId = {team.Id} OR a.HomeTeamId = {team.Id}
     ");
+}
+
+async Task Transactions()
+{
+    var dbContext = new FootballLeagueDbContext();
+    var transaction = await dbContext.Database.BeginTransactionAsync();
+    try
+    {
+        var team = new Team("Abc")
+        {
+            League = new League("Random League")
+        };
+
+        dbContext.Add(team);
+        dbContext.SaveChanges();
+
+        transaction.Commit();
+    }
+    catch (Exception ex)
+    {
+        transaction.Rollback();
+    }
+
 }
 
 await Test();
